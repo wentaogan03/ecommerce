@@ -115,7 +115,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# define url prefix for static files
 STATIC_URL = 'static/'
+# define a list of directories where Django will look for static files
+STATICFILES_DIRS = [BASE_DIR / 'static']
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+# by default, are 'static/' app sub-directories and any directories you include in STATICFILES_DIRS
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 JAZZMIN_SETTINGS = {
     "site_title": "Ecommerce",

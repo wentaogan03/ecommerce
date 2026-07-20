@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 class User(AbstractUser):
@@ -15,6 +16,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    # use in python 2.x 
     def __unicode__(self):
         return self.username
 
@@ -41,4 +43,9 @@ class Profile(models.Model):
         ordering = ["-date"]
 
     def __str__(self):
-            return str(self.user.first_name) + " " + str(self.user.last_name)
+        return str(self.user.username)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

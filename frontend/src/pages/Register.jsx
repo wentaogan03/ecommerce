@@ -1,4 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, Form } from "react-router-dom";
+import axios from "../utils/axios";
+import { login } from "../utils/auth";
+
+export const Action = async ({request}) => {
+  const formData = await request.formData();
+  const username = formData.get('username');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const password = formData.get('password');
+  const password2 = formData.get('password2');
+  if(password !== password2) return new Response(JSON.stringify({ error: 'Passwords do not match' }), { status: 400 });
+  const response = await axios.post('/user/register/', { username, email, phone, password, password2 });
+  return await login(email, password);
+}
 
 const RegisterPage = () => {
   return (
@@ -18,7 +32,7 @@ const RegisterPage = () => {
                       role="tabpanel"
                       aria-labelledby="tab-login"
                     >
-                      <form>
+                      <Form method="post" action="/register">
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="username">
                             Username
@@ -93,7 +107,7 @@ const RegisterPage = () => {
                             <Link to="/login">Login</Link>
                           </p>
                         </div>
-                      </form>
+                      </Form>
                     </div>
                   </div>
                 </div>

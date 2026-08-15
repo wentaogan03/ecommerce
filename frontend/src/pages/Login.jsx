@@ -1,18 +1,11 @@
 import { Form, redirect, Link } from 'react-router-dom';
-import axios from '../utils/axios';
-import Cookies from 'js-cookie';
+import { login} from '../utils/auth';
 
 export async function Action({ request }) {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
-  const response = await axios.post('/user/token/', { email, password });
-  if(response.status === 401){
-    return response;
-  }
-  Cookies.set('access_token', response.data.access);
-  Cookies.set('refresh_token', response.data.refresh);
-  return redirect('/');
+  await login(email, password);
 }
 
 export default function LoginPage() {

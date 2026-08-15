@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, redirect } from 'react-router-dom';
 import axios from '../utils/axios';
 import Cookies from 'js-cookie';
@@ -19,7 +18,7 @@ export async function Action({ request }) {
 export default function LoginPage() {
   return (
     <main className="d-flex justify-content-center min-vh-100">
-        <Form className="w-25 m-auto" method="post" action="/login">
+      <Form className="w-25 m-auto" method="post" action="/login">
           <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
           <div className="form-floating">
             <input

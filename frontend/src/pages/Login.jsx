@@ -1,4 +1,4 @@
-import { Form, redirect } from 'react-router-dom';
+import { Form, redirect, Link } from 'react-router-dom';
 import axios from '../utils/axios';
 import Cookies from 'js-cookie';
 
@@ -43,6 +43,14 @@ export default function LoginPage() {
           <button className="btn btn-primary w-100 py-2 mt-4" type="submit">
             Sign in
           </button>
+          <div className="text-center">
+            <p className='mt-4'>
+              Don't have an account? <Link to="/register">Register</Link>
+            </p>
+            <p className='mt-0'>
+                <Link to="/" className='text-danger'>Forgot Password?</Link>
+            </p>
+          </div>
         </Form>
     </main>
   );

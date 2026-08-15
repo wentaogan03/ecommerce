@@ -1,34 +1,50 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Form, redirect } from 'react-router-dom';
+import axios from '../utils/axios';
+import Cookies from 'js-cookie';
 
-const LoginPage = () => {
+export async function Action({ request }) {
+  const formData = await request.formData();
+  const email = formData.get('email');
+  const password = formData.get('password');
+  const response = await axios.post('/user/token/', { email, password });
+  if(response.status === 401){
+    return response;
+  }
+  Cookies.set('access_token', response.data.access);
+  Cookies.set('refresh_token', response.data.refresh);
+  return redirect('/');
+}
+
+export default function LoginPage() {
   return (
-    <main class="d-flex justify-content-center min-vh-100">
-        <form class="w-25 m-auto">
-          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-          <div class="form-floating">
+    <main className="d-flex justify-content-center min-vh-100">
+        <Form className="w-25 m-auto" method="post" action="/login">
+          <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+          <div className="form-floating">
             <input
+              name="email"
               type="email"
-              class="form-control"
+              className="form-control"
               id="floatingInput"
               placeholder="name@example.com"
             />
-            <label for="floatingInput">Email address</label>
+            <label htmlFor="floatingInput">Email address</label>
           </div>
-          <div class="form-floating">
+          <div className="form-floating">
             <input
+              name="password"
               type="password"
-              class="form-control"
+              className="form-control"
               id="floatingPassword"
               placeholder="Password"
             />
-            <label for="floatingPassword">Password</label>
+            <label htmlFor="floatingPassword">Password</label>
           </div>
-          <button class="btn btn-primary w-100 py-2 mt-4" type="submit">
+          <button className="btn btn-primary w-100 py-2 mt-4" type="submit">
             Sign in
           </button>
-        </form>
+        </Form>
     </main>
   );
 };
-
-export default LoginPage;

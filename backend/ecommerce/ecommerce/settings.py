@@ -196,3 +196,5 @@ JAZZMIN_SETTINGS = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+FRONTEND_URL = "http://localhost:5173"

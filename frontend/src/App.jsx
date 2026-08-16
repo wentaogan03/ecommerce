@@ -6,6 +6,7 @@ import DashboardPage from "./pages/Dashboard";
 import MainLayout from "./pages/MainLayout";
 import RegisterPage, {Action as RegisterAction} from "./pages/Register";
 import ForgotPasswordPage from "./pages/ForgotPassword";
+import CreatePasswordPage from "./pages/CreatePassword";
 
 const router = createBrowserRouter([
   { 
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
       { path: "register", element: <RegisterPage />, action: RegisterAction },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
     ]
-  }
+  },
+  { path: "/create-password", element: <CreatePasswordPage /> }
 ]);
 
 function App() {

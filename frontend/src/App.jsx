@@ -5,7 +5,7 @@ import LoginPage, {Action as LoginAction} from "./pages/Login";
 import DashboardPage from "./pages/Dashboard";
 import MainLayout from "./pages/MainLayout";
 import RegisterPage, {Action as RegisterAction} from "./pages/Register";
-import ForgotPasswordPage from "./pages/ForgotPassword";
+import ForgotPasswordPage, { Action as ForgotPasswordAction } from "./pages/ForgotPassword";
 import CreatePasswordPage from "./pages/CreatePassword";
 
 const router = createBrowserRouter([
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
       { path: "login", element: <LoginPage />, action: LoginAction },
       { path: "register", element: <RegisterPage />, action: RegisterAction },
-      { path: "forgot-password", element: <ForgotPasswordPage /> },
+      { path: "forgot-password", element: <ForgotPasswordPage />, action:ForgotPasswordAction },
     ]
   },
   { path: "/create-password", element: <CreatePasswordPage /> }

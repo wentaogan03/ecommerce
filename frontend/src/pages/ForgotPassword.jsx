@@ -1,3 +1,13 @@
+import { Form } from "react-router-dom";
+import axios from "../utils/axios";
+
+export async function Action({ request }) {
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const response = await axios.get(`/user/reset-password/${email}/`);
+  if(response.status === 200) return alert('reset password link has been sent to your email');
+}
+
 const ForgotPasswordPage = () => {
   return (
     <section>
@@ -17,7 +27,11 @@ const ForgotPasswordPage = () => {
                         aria-labelledby="tab-login"
                       >
                         <div>
-                          <div className="form-outline mb-4">
+                          <Form
+                            className="form-outline mb-4"
+                            action="/forgot-password"
+                            method="post"
+                          >
                             <label className="form-label" htmlFor="email">
                               Email Address
                             </label>
@@ -27,12 +41,15 @@ const ForgotPasswordPage = () => {
                               name="email"
                               className="form-control"
                             />
-                          </div>
-                          <div className="text-center">
-                            <button className="btn btn-primary w-100">
-                              Reset Password
-                            </button>
-                          </div>
+                            <div className="text-center">
+                              <button
+                                className="btn btn-primary w-100 mt-4"
+                                type="submit"
+                              >
+                                Reset Password
+                              </button>
+                            </div>
+                          </Form>
                         </div>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+from django.core.mail import send_mail
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
@@ -28,4 +29,10 @@ class ResetPasswordEmailVerificationView(generics.RetrieveAPIView):
             user.reset_token = shortuuid.ShortUUID().random(length=7)
             user.save()
             create_password_url = f"{settings.FRONTEND_URL}/create-password?token={user.reset_token}&uid={user.id}"
+            send_mail(
+                'Reset Your Password',
+                f'Click the link below to reset your password:\n\n{create_password_url}',
+                settings.EMAIL_HOST_USER,
+                [user.email],
+            )
             return user

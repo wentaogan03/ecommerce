@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from users.models import User, Profile
-from users.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
+from users.serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer, CreatePasswordSerializer
 import shortuuid
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -32,7 +32,8 @@ class ResetPasswordEmailVerificationView(generics.RetrieveAPIView):
         if user:
             user.reset_token = shortuuid.ShortUUID().random(length=7)
             user.save()
-            create_password_url = f"{settings.FRONTEND_URL}/create-password?token={user.reset_token}&uid={user.id}"
+            create_password_url = f"{settings.FRONTEND_URL}/create-password?reset_token={user.reset_token}&uid={user.id}"
+            print(create_password_url)
             send_mail(
                 'Reset Your Password',
                 f'Click the link below to reset your password:\n\n{create_password_url}',
@@ -44,12 +45,14 @@ class ResetPasswordEmailVerificationView(generics.RetrieveAPIView):
 
 class PasswordChangeView(generics.UpdateAPIView):
     permission_classes = (AllowAny,)
-    serializer_class = UserSerializer
+    serializer_class = CreatePasswordSerializer
 
     def put(self, request, *args, **kwargs):
         uid = request.data.get('uid')
         reset_token = request.data.get('reset_token')
+        confirm_password = request.data.get('password2')
         new_password = request.data.get('password')
+        if confirm_password != new_password: return Response({ 'message': 'Password not match' }, status=status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(id=uid, reset_token=reset_token)
             validate_password(new_password)

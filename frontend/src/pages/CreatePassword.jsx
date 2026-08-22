@@ -1,4 +1,10 @@
+import { useSearchParams, Form, redirect } from "react-router-dom";
+import axios from "../utils/axios";
+
 const CreatePasswordPage = () => {
+  const [searchParams] = useSearchParams();
+  const uid = searchParams.get("uid");
+  const resetToken = searchParams.get("reset_token");
   return (
     <main className="d-flex align-items-center min-vh-100">
       <div className="container">
@@ -15,7 +21,10 @@ const CreatePasswordPage = () => {
                       role="tabpanel"
                       aria-labelledby="tab-login"
                     >
-                      <form>
+                      <Form
+                        action={`?reset_token=${resetToken}&uid=${uid}`}
+                        method="put"
+                      >
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="password">
                             Enter New Password
@@ -49,7 +58,7 @@ const CreatePasswordPage = () => {
                             Reset Password
                           </button>
                         </div>
-                      </form>
+                      </Form>
                     </div>
                   </div>
                 </div>
@@ -63,3 +72,25 @@ const CreatePasswordPage = () => {
 };
 
 export default CreatePasswordPage;
+
+export const Action = async ({ request }) => {
+  const formData = await request.formData();
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const password = formData.get("password");
+  const password2 = formData.get("password2");
+  const uid = searchParams.get("uid");
+  const reset_token = searchParams.get("reset_token");
+  if (password != password2) return alert("Password not match");
+  try {
+    const response = await axios.put("/user/password-change/", {
+      password,
+      password2,
+      uid,
+      reset_token,
+    });
+    return alert(response.data.message);
+  } catch (error) {
+    return alert(error.response.data.message);
+  }
+};

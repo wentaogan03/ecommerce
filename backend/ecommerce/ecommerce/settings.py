@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'users',
+    'store',
     'rest_framework',
     'rest_framework_simplejwt',
 ]

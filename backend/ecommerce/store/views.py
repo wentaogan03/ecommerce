@@ -20,3 +20,15 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     permission_classes = (AllowAny, )
     queryset = Product.objects.all()
+
+
+class StoreListView(generics.ListCreateAPIView):
+    serializer_class = StoreSerializer
+    permission_classes = (AllowAny, )
+    queryset = Store.objects.all()
+
+
+class StoreDetailView(generics.RetrieveAPIView):
+    serializer_class = StoreSerializer
+    permission_classes = (AllowAny, )
+    queryset = Store.objects.all()

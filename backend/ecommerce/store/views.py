@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from store.serializers import StoreSerializer, ProductSerializer, CategorySerializer
+from store.models import Store, Category, Product
+from rest_framework.permissions import AllowAny
+from rest_framework import generics
 
-# Create your views here.
+class CategoryListView(generics.ListCreateAPIView):
+    serializer_class = CategorySerializer
+    permission_classes = (AllowAny, )
+    queryset = Category.objects.all()

@@ -8,3 +8,15 @@ class CategoryListView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     permission_classes = (AllowAny, )
     queryset = Category.objects.all()
+
+
+class ProductListView(generics.ListCreateAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = (AllowAny, )
+    queryset = Product.objects.all()
+
+
+class ProductDetailView(generics.RetrieveAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = (AllowAny, )
+    queryset = Product.objects.all()
